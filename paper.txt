@@ -45,13 +45,17 @@ The resulting noisy contexts average 5,520 characters (approximately 1,191 token
 
 3.3 Models
 
-All inference runs locally on a Mac Mini via Ollama (localhost:11434). We use two models:
+All inference runs locally on an M1 Mac Mini (8-core CPU, 8-core GPU, 16GB unified memory, 512GB storage) via Ollama (localhost:11434). This is a consumer-grade machine that Apple introduced in 2020 at a starting price of $699. It has no discrete GPU and no special AI accelerator beyond the Neural Engine integrated into the M1 chip, which Ollama does not use. All inference runs on the GPU cores of the M1, sharing the 16GB of unified memory with the operating system and all other processes.
+
+This hardware choice is deliberate. The entire point of the local-first approach is that context curation does not require expensive infrastructure. Both models fit comfortably in 16GB of unified memory (Llama 3.1 8B at 4.9GB quantized, Qwen 2.5 7B at 4.7GB), though only one model is loaded at a time since Ollama swaps models in and out of memory. The 512GB SSD provides fast model loading but is otherwise not a bottleneck.
+
+We use two models:
 
 Answer model: Llama 3.1 8B (llama3.1:8b), used identically in both conditions. Temperature is set to 0.0 for deterministic outputs. Maximum generation length is 256 tokens.
 
 Curator model: Qwen 2.5 7B (qwen2.5:latest), used only in the curated condition to extract relevant sentences before the answer model sees the context.
 
-Using different models for curation and answering mirrors the proposed architecture where a smaller, cheaper model handles context management while a larger model handles reasoning. In practice, the two models used here are similar in size, but the curator's task is simpler (extraction, not generation), so a smaller model could serve the role.
+Using different models for curation and answering mirrors the proposed architecture where a smaller, cheaper model handles context management while a larger model handles reasoning. In practice, the two models used here are similar in size, but the curator's task is simpler (extraction, not generation), so a smaller model could serve the role. On hardware with more memory, such as a 64GB M-series Mac or a machine with a dedicated GPU, both models could remain loaded simultaneously, eliminating the swap overhead that accounts for much of the curator step's 17.6-second average latency.
 
 3.4 Prompts
 
@@ -163,7 +167,7 @@ To reproduce:
 
 The experiment uses seed 42 for reproducible question sampling and distractor selection. Model outputs are deterministic (temperature = 0.0). Results may vary slightly across Ollama versions and hardware due to floating-point differences in inference.
 
-Hardware: Mac Mini with Apple Silicon, running Ollama locally. Total experiment runtime: approximately 2 hours for 200 questions.
+Hardware: M1 Mac Mini, 8-core CPU, 8-core GPU, 16GB unified memory, 512GB SSD, running macOS and Ollama locally. No discrete GPU, no cloud compute, no paid API calls. Total experiment runtime: approximately 2 hours for 200 questions. The majority of per-question time is model loading overhead from swapping between the curator and answer models. On a machine with enough memory to hold both models simultaneously, or with a faster GPU, total runtime would be substantially shorter.
 
 
 7. Conclusion
