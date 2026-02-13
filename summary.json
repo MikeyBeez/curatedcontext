@@ -1,0 +1,24 @@
+{
+  "num_questions": 200,
+  "answer_model": "llama3.1:8b",
+  "curator_model": "qwen2.5:latest",
+  "num_distractors": 6,
+  "baseline": {
+    "exact_match": 0.55,
+    "f1": 0.7613,
+    "avg_time_s": 12.93,
+    "avg_prompt_tokens": 1190.5
+  },
+  "curated": {
+    "exact_match": 0.605,
+    "f1": 0.7691,
+    "avg_time_s": 20.66,
+    "avg_prompt_tokens": 94.7,
+    "avg_curator_time_s": 17.59
+  },
+  "deltas": {
+    "em_delta": 0.055,
+    "f1_delta": 0.0079,
+    "token_reduction_pct": 92.0
+  }
+}
