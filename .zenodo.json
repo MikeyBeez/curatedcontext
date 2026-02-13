@@ -1,0 +1,32 @@
+{
+  "title": "Context Curation Improves LLM Answer Quality: An Empirical Evaluation on SQuAD",
+  "description": "Language models perform worse when their context windows are polluted with irrelevant information — but most systems still dump everything into the prompt and hope for the best. This paper tests a simple alternative: use a lightweight curator model to extract only the relevant sentences before the answer model sees them.\n\nUsing 200 SQuAD 2.0 questions with artificially noisy context (1 relevant paragraph + 6 distractors), we compare raw context against curated context using small, locally-running models (Llama 3.1 8B for answering, Qwen 2.5 7B for curation). The results:\n\n• Exact match accuracy improves from 55.0% to 60.5% (+5.5 percentage points)\n• Prompt tokens drop by 92% (1,191 → 95 average tokens)\n• The answer model runs 4.2x faster on curated context\n\nThe curator doesn't just recover the right paragraph — it performs genuine sentence-level semantic filtering, extracting an average of 229 characters from 5,520 characters of noisy input. This is a semantic relevance judgment, not compression.\n\nThese results provide the first empirical validation of the two-agent architecture proposed in \"Understanding Is Getting the Context Right\" (Bee, 2026, doi:10.5281/zenodo.18571717), which argues that context quality — not context quantity — is the dominant factor in language model performance.\n\nThe entire experiment runs on a $699 M1 Mac Mini with 16GB RAM. No cloud compute, no paid APIs, no fine-tuning. All code, data, and results are included for full reproducibility.",
+  "creators": [
+    {
+      "name": "Bee, Micheal",
+      "affiliation": "Independent Researcher"
+    }
+  ],
+  "upload_type": "publication",
+  "publication_type": "preprint",
+  "license": "MIT",
+  "keywords": [
+    "context curation",
+    "language models",
+    "retrieval-augmented generation",
+    "SQuAD",
+    "context quality",
+    "two-agent architecture",
+    "token efficiency",
+    "LLM evaluation",
+    "local inference",
+    "Ollama"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.5281/zenodo.18571717",
+      "relation": "isSupplementTo",
+      "resource_type": "publication-preprint"
+    }
+  ]
+}
